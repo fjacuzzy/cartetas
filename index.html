@@ -1,0 +1,80 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="estilotes.css"/>
+</head>
+<body>
+    <div class = "grid"></div>
+    
+    <script>
+        
+        const CardItem = props => { //en props se van a guardar todos los parametros
+            const {nombre, tipocarta, ataque, defensa, nivel, atributo,descripcion, imagen} = props; //const name = props.name //hago destructuring de los datos que me interesa
+            return `
+                 <article class = "card">
+                    <div class="head"><img src="${imagen}"></div> 
+                    <div class="body">
+                        <div class="content">
+                            <h4><span class="acotacion">Nombre:</span>${nombre}</h3>
+                            <h4><span class="acotacion">Ataque:</span>${ataque}</h4>
+                            <h4 id="estado"><span class="acotacion">Defensa:</span> ${defensa}</h4> 
+                            <h4 id="genero"><span class="acotacion">Nivel:</span> ${nivel}</h4> 
+                            <h4 id="locacion"><span class="acotacion">Descripcion:</span> ${descripcion}</h4> 
+                        </div> 
+                    </div>    
+               </article>
+            ` 
+            
+        //template literals: guardamos una cadena string y mediante el signo pesos podemos concatenar 
+            
+        }   
+        
+//        Lo de arriba seria:
+//        function CardItem(props){
+//            
+//        }
+        
+        
+        
+        
+//        function getUsersFetch(){
+//            
+//           fetch('https://rickandmortyapi.com/api/character/2') //trae los datos
+//            .then(response => response.json()) //cuando obtiene la respuesta la interpreta en json y lo pone tipo array
+//            .then(users =>{
+//            console.log(users)
+//        })
+//            
+//          
+//        }
+        
+        //Lo mismo de arriba pero con async and await
+        async function getUsers(){ //async hace que la funcion sea asincronica
+            const response = await fetch('https://cartetasfacu.herokuapp.com/cartas') //await antes del fetch porque lo espera 
+            const users = await response.json()
+            return users
+            
+        }
+        
+        const mainLogic = async () => {
+            const users = await getUsers() //await espera al resultado de lo de al lado, en este caso la funcion getUser
+//            const usersName = users.map(user => {
+//                return user.name
+//            })
+//            console.log('Los usuarios son', usersName);
+            const grid = document.querySelector('.grid');
+            grid.innerHTML = null;
+            users.forEach(user => { //itera sobre un array y hace algo con cada uno. El forEach SIEMPRE para arrays
+               grid.innerHTML += CardItem(user)//card item funcion que recibe todo mi objeto
+            });
+        }
+        
+        mainLogic()
+    
+    </script> 
+    
+    
+</body>
+
+</html>
